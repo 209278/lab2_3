@@ -62,7 +62,22 @@ class SimilarityFinderTest {
         int[] seq1 = {1, 2, 3, 4};
         int[] seq2 = {5, 6};
 
-        assertEquals(0, similarityFinder.calculateJackardSimilarity(seq1, seq2));
+        assertEquals(0.0, similarityFinder.calculateJackardSimilarity(seq1, seq2));
+    }
+
+    @Test
+    void bothEmptySeq(){
+
+        SequenceSearcher sequenceSearcher = (key, seq) -> {
+            return null;
+        };
+
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+
+        int[] seq1 = {};
+        int[] seq2 = {};
+
+        assertEquals(1.0, similarityFinder.calculateJackardSimilarity(seq1, seq2));
     }
 
 }
