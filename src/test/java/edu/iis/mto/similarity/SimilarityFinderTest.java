@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SimilarityFinderTest {
 
-    @Test void theSameSeq() {
+    @Test
+    void theSameSeq() {
 
         SequenceSearcher sequenceSearcher = (key, seq) -> {
             SearchResult.Builder builder = SearchResult.builder();
@@ -22,5 +23,28 @@ class SimilarityFinderTest {
         int[] seq2 = {1, 2, 3};
 
         assertEquals(1.0, similarityFinder.calculateJackardSimilarity(seq1, seq2));
+    }
+
+    @Test
+    void differentSizeOfSequencesWithTheSameElem(){
+
+        SequenceSearcher sequenceSearcher = (key, seq) -> {
+            if(key < 3) {
+                SearchResult.Builder builder = SearchResult.builder();
+                builder.withFound(true);
+                return builder.build();
+            }else{
+                SearchResult.Builder builder = SearchResult.builder();
+                builder.withFound(false);
+                return builder.build();
+            }
+        };
+
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+
+        int[] seq1 = {1, 2, 3, 4};
+        int[] seq2 = {1, 2};
+
+        assertEquals(0.5, similarityFinder.calculateJackardSimilarity(seq1, seq2));
     }
 }
