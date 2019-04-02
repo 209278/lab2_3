@@ -69,7 +69,9 @@ class SimilarityFinderTest {
     void bothEmptySeq(){
 
         SequenceSearcher sequenceSearcher = (key, seq) -> {
-            return null;
+            SearchResult.Builder builder = SearchResult.builder();
+            builder.withFound(false);
+            return builder.build();
         };
 
         SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
@@ -78,6 +80,23 @@ class SimilarityFinderTest {
         int[] seq2 = {};
 
         assertEquals(1.0, similarityFinder.calculateJackardSimilarity(seq1, seq2));
+    }
+
+    @Test
+    void TheSameSizeWithDifferentValues(){
+
+        SequenceSearcher sequenceSearcher = (key, seq) -> {
+            SearchResult.Builder builder = SearchResult.builder();
+            builder.withFound(false);
+            return builder.build();
+        };
+
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+
+        int[] seq1 = {1, 2, 3, 4};
+        int[] seq2 = {5, 6, 7, 8};
+
+        assertEquals(0.0, similarityFinder.calculateJackardSimilarity(seq1, seq2));
     }
 
 }
