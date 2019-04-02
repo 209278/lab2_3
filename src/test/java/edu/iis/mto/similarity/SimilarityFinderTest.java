@@ -47,4 +47,22 @@ class SimilarityFinderTest {
 
         assertEquals(0.5, similarityFinder.calculateJackardSimilarity(seq1, seq2));
     }
+
+    @Test
+    void differentSizeOfSequencesWithDifferentElem(){
+
+        SequenceSearcher sequenceSearcher = (key, seq) -> {
+            SearchResult.Builder builder = SearchResult.builder();
+            builder.withFound(false);
+            return builder.build();
+        };
+
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+
+        int[] seq1 = {1, 2, 3, 4};
+        int[] seq2 = {5, 6};
+
+        assertEquals(0, similarityFinder.calculateJackardSimilarity(seq1, seq2));
+    }
+
 }
