@@ -99,4 +99,42 @@ class SimilarityFinderTest {
         assertEquals(0.0, similarityFinder.calculateJackardSimilarity(seq1, seq2));
     }
 
+    @Test
+    void chackHowManyTimesSequenceSearcherIsCalled(){
+
+        SequenceSearcher sequenceSearcher = (key, seq) -> {
+            seq[0] ++;
+            SearchResult.Builder builder = SearchResult.builder();
+            builder.withFound(false);
+            return builder.build();
+        };
+
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+
+        int[] seq1 = {1, 2, 3, 4};
+        int[] seq2 = {0};
+
+        similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(4, seq2[0]);
+    }
+
+    @Test
+    void chackHowManyTimesSequenceSearcherIsCalledForEmptyFirstSeq(){
+
+        SequenceSearcher sequenceSearcher = (key, seq) -> {
+            seq[0] ++;
+            SearchResult.Builder builder = SearchResult.builder();
+            builder.withFound(false);
+            return builder.build();
+        };
+
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+
+        int[] seq1 = {};
+        int[] seq2 = {0};
+
+        similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(0, seq2[0]);
+    }
+
 }
